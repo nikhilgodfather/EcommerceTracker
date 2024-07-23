@@ -1,0 +1,1 @@
+pip install selenium  django BeautifulSoup4 requests smtplib

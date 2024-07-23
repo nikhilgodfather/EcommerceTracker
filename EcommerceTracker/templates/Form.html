@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price Tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+        }
+        .form {
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+        }
+        .form__title {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .card{
+            margin-right: 50px;
+            padding: 20px;
+        }
+       
+        .logo{
+            justify-content: center;
+            align-items: center;
+            margin-left: 20px;
+        }
+        body {
+            margin: 0;
+            padding:0;
+            background: #222;
+          }
+          
+          /* FOOTER */
+          
+        footer {
+            background-color:#222;
+            color:#777;
+            padding: 44px 0 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+          }
+          
+          .social-icons
+          {
+            text-align:right
+          }
+          
+          .social-icons a
+          {
+            width:44px;
+            height:44px;
+            line-height:44px;
+              margin: 0 auto 0 auto;
+              -moz-border-radius: 50%;
+              -webkit-border-radius: 50%;
+              border-radius: 50%;
+            background-color:#33353d;
+          }
+          
+          @media (max-width:991px)
+          {
+            .footer5 [class^=col-]
+            {
+              margin-bottom:30px
+            }
+          }
+          @media (max-width:767px)
+          {
+            .footer5
+            {
+              padding-bottom:0
+            }
+            .footer5 #footerRights,
+            .footer5 .social-icons
+            {
+              text-align:center
+            }
+          }
+          
+          .social-icons
+          {
+            padding-left:0;
+            margin-bottom:0;
+            list-style:none
+          }
+          .social-icons li
+          {
+            display:inline-block;
+            margin-bottom:12px
+          }
+          
+          .social-icons a {
+            width: 44px;
+            height: 44px;
+            background-color:#eceeef;
+            color:#818a91;
+            text-align: center;
+            line-height: 44px;
+            font-size: 24px;
+            display: inline-block;
+            border-radius: 50%;
+              -webkit-transition:all .2s linear;
+              -o-transition:all .2s linear;
+              transition:all .2s linear
+          }
+          
+          .social-icons a:active,.social-icons a:focus,.social-icons a:hover
+          {
+            color:#fff;
+            background-color:#29aafe
+          }
+          
+          .social-icons a.facebook:hover
+          {background-color:#3b5998}
+          .social-icons a.twitter:hover
+          {background-color:#00aced}
+          .social-icons a.instagram:hover
+          {background-color:#f00077}
+          
+    </style>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    {% include "NavBar.html" %}
+    <div class="container">
+        {% if context %}
+        <div class="card" style="width: 18rem;">
+            <form action="track/" method="post">
+                {% csrf_token %}
+                {% if context.NameUrl == "Amazon" %}
+                    <img src="../static/amazon-6536326_1280.webp" alt="Amazon Logo" class="logo" width="200px" height="100px">
+                {% elif context.NameUrl == "Flipkart" %}
+                    <img src="../static/download.png" alt="Flipkart Logo" class="logo" width="200px" height="100px">
+                {% endif %}
+                
+                <img src="{{ context.imageSrc }}" class="card-img-top" alt="{{ context.title }}" width="50px" height="auto">
+                <div class="card-body">
+                    <p class="card-text">{{ context.title }}</p>
+                    <h2>{{ context.price }}</h2>
+                    <p><i class='bx bxl-gmail'></i>{{ context.email }}</p>
+                    <p>Expected Price: {{ context.ExpectedPrice }}</p>
+                </div>
+                
+                <!-- Serialize context data to JSON and include it as a hidden input -->
+                <input type="hidden" name="context" value="{{context}}">
+                
+                <button type="submit" class="btn btn-primary">Track it!</button>
+                <a href="/" class="btn btn-danger" type="button" style="float: right;"> Cancel</a>
+            </form>
+            
+        </div>
+          {%else %}
+          <div class="form" >
+            <form action="/" id="form1" method="post" style="display: block;">
+                {% csrf_token %}
+                <h2 class="form__title">Track it!</h2>
+                <div class="dropdown mb-3" style="text-align: center;">
+                    {% if ErrorNameUrl %}
+                      <p style="color: red;">{{ErrorNameUrl.error}}</p>
+                    {% endif %}
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="Choose" aria-required="true">
+                        Select
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><button class="dropdown-item" onclick="Select('Amazon')" type="button">Amazon</button></li>
+                        <li><button class="dropdown-item" onclick="Select('Flipkart')" type="button">Flipkart</button></li>
+                    </ul>
+                </div>
+                <div class="mb-3">
+                    {% if errorMessage %}
+                          <p style="color: red;">{{errorMessage.error}}</p>
+                        {% endif %}
+                    <div class="input-group my-3">
+                        
+                        <span class="input-group-text" id="url">url</span>
+                        <input type="hidden" id="choosedUrl" name="NameUrl">
+                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3 basic-addon4" name="url" required>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="email" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2" name="email" required>
+                    <span class="input-group-text" id="basic-addon2">@gmail.com</span>
+                </div>
+                <div id="ExptectedPrice" style="display: none;">
+                    <div class="input-group mb-3">
+                        <input type="number" class="form-control" aria-label="Amount (to the nearest dollar)" name="price">
+                        <span class="input-group-text">.00</span>
+                    </div>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" id="flexRadioDefault1" onclick="expectedPrice()" name="Expected">
+                    <label class="form-check-label" for="flexRadioDefault1">
+                        Expected Price
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn btn-warning mt-3"> Preview</button>
+            </form>
+        </div>
+        {% endif %}
+       
+        
+     
+        
+    </div>
+    <script>
+        function Select(name){
+            const url = document.getElementById('url');
+            const Choose = document.getElementById('Choose');
+            const choosedUrl = document.getElementById('choosedUrl')
+            if (name === 'Amazon') {
+                url.innerText = 'https://www.amazon.in/';
+                choosedUrl.value = 'Amazon';
+                Choose.innerHTML = ' Amazon';
+            } else if (name === 'Flipkart') {
+                url.innerText = 'https://www.flipkart.com/';
+                Choose.innerHTML = 'Flipkart';
+                choosedUrl.value = 'Flipkart';
+            } else {
+                url.innerHTML = 'wrong Url';
+            }
+        }
+
+        function expectedPrice() {
+            const expectedPrice = document.getElementById('ExptectedPrice');
+            expectedPrice.style.display = expectedPrice.style.display === 'none' ? 'block' : 'none';
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    {% include "footer.html" %}
+</body>
+</html>
