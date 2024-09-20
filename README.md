@@ -48,9 +48,9 @@ This project tracks product prices on **Amazon** and **Flipkart** platforms. It 
 
 Feel free to contribute by submitting a pull request or reporting issues.
 
-![Product Tracking Dashboard](https://github.com/nikhilgodfather/EcommerceTracker/blob/main/EcommerceTracker/Preview/Screenshot1.png)
-![Product Tracking Dashboard](https://github.com/nikhilgodfather/EcommerceTracker/blob/main/EcommerceTracker/Preview/Screenshot2.png)
 ![Product Tracking Dashboard](https://github.com/nikhilgodfather/EcommerceTracker/blob/main/EcommerceTracker/Preview/Screenshot3.png)
 ![Product Tracking Dashboard](https://github.com/nikhilgodfather/EcommerceTracker/blob/main/EcommerceTracker/Preview/Screenshot4.png)
 ![Product Tracking Dashboard](https://github.com/nikhilgodfather/EcommerceTracker/blob/main/EcommerceTracker/Preview/Screenshot5.png)
+![Product Tracking Dashboard](https://github.com/nikhilgodfather/EcommerceTracker/blob/main/EcommerceTracker/Preview/Screenshot1.png)
+![Product Tracking Dashboard](https://github.com/nikhilgodfather/EcommerceTracker/blob/main/EcommerceTracker/Preview/Screenshot2.png)
 
